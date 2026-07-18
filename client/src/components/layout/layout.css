@@ -59,3 +59,89 @@
 .page {
   padding: 30px;
 }
+
+/* ==========================
+   Header
+========================== */
+
+.top-header {
+  height: 75px;
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 30px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.header-date {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #eff6ff;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.icon-button:hover {
+  background: #dbeafe;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 50%;
+
+  background: #2563eb;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.user-role {
+  color: #6b7280;
+  font-size: 13px;
+}
