@@ -3,21 +3,24 @@ import { useMemo, useState } from "react";
 import "./employees.css";
 
 import { getEmployees } from "../../services/employeeService";
+
 import EmployeeTable from "./components/EmployeeTable";
+import EmployeeModal from "./components/EmployeeModal";
+import EmployeeForm from "./components/EmployeeForm";
 
 import Card from "../../components/ui/Card/Card";
 import Button from "../../components/ui/Button/Button";
 import SearchBox from "../../components/ui/SearchBox/SearchBox";
 
 export default function Employees() {
-  // Employee data (will later come from backend)
   const [employees, setEmployees] = useState(getEmployees());
 
-  // Search
   const [search, setSearch] = useState("");
 
-  // Sorting
+  const [showModal, setShowModal] = useState(false);
+
   const [sortColumn, setSortColumn] = useState("name");
+
   const [sortDirection, setSortDirection] = useState("asc");
 
   function handleSort(column) {
@@ -27,6 +30,11 @@ export default function Employees() {
       setSortColumn(column);
       setSortDirection("asc");
     }
+  }
+
+  function addEmployee(employee) {
+    setEmployees((prev) => [...prev, employee]);
+    setShowModal(false);
   }
 
   const filteredEmployees = useMemo(() => {
@@ -60,7 +68,9 @@ export default function Employees() {
           <p>Manage employees and resource capacity.</p>
         </div>
 
-        <Button>+ Add Employee</Button>
+        <Button onClick={() => setShowModal(true)}>
+          + Add Employee
+        </Button>
       </div>
 
       <SearchBox
@@ -77,6 +87,16 @@ export default function Employees() {
           sortDirection={sortDirection}
         />
       </Card>
+
+      <EmployeeModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+      >
+        <EmployeeForm
+          onSave={addEmployee}
+          onCancel={() => setShowModal(false)}
+        />
+      </EmployeeModal>
     </div>
   );
 }
