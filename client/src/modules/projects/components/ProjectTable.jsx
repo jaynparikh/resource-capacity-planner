@@ -4,22 +4,22 @@ import Table from "../../../components/ui/Table/Table";
 const headers = [
   {
     key: "name",
-    label: "Employee",
+    label: "Project Name",
     sortable: true,
   },
   {
-    key: "role",
-    label: "Role",
+    key: "client",
+    label: "Client",
     sortable: true,
   },
   {
-    key: "skill",
-    label: "Primary Skill",
+    key: "manager",
+    label: "Project Manager",
     sortable: true,
   },
   {
-    key: "capacity",
-    label: "Capacity",
+    key: "teamSize",
+    label: "Team Size",
     sortable: true,
   },
   {
@@ -34,8 +34,8 @@ const headers = [
   },
 ];
 
-export default function EmployeeTable({
-  employees,
+export default function ProjectTable({
+  projects,
   onHeaderClick,
   sortColumn,
   sortDirection,
@@ -49,28 +49,28 @@ export default function EmployeeTable({
       sortColumn={sortColumn}
       sortDirection={sortDirection}
     >
-      {employees.map((employee) => (
-        <tr key={employee.id}>
-          <td>{employee.name}</td>
-          <td>{employee.role}</td>
-          <td>{employee.skill}</td>
-          <td>{employee.capacity}%</td>
+      {projects.map((project) => (
+        <tr key={project.id}>
+          <td>{project.name}</td>
+          <td>{project.client}</td>
+          <td>{project.manager}</td>
+          <td>{project.teamSize}</td>
 
           <td>
-            <Badge status={employee.status} />
+            <Badge status={project.status} />
           </td>
 
           <td className="actions-cell">
             <button
               className="edit-btn"
-              onClick={() => onEdit(employee)}
+              onClick={() => onEdit(project)}
             >
               ✏️
             </button>
 
             <button
               className="delete-btn"
-              onClick={() => onDelete(employee.id)}
+              onClick={() => onDelete(project.id)}
             >
               🗑
             </button>

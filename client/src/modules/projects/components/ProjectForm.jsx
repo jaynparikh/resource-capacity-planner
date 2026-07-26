@@ -4,41 +4,43 @@ import Button from "../../../components/ui/Button/Button";
 
 import "../../../components/ui/Form/Form.css";
 
-const initialEmployee = {
+const initialProject = {
   id: null,
   name: "",
-  role: "",
-  skill: "",
-  capacity: 100,
-  status: "Available",
+  client: "",
+  manager: "",
+  teamSize: 1,
+  technology: "",
+  status: "Planning",
 };
 
-export default function EmployeeForm({
-  employee,
+export default function ProjectForm({
+  project,
   onSave,
   onCancel,
 }) {
-  const [formData, setFormData] = useState(initialEmployee);
+  const [formData, setFormData] = useState(initialProject);
 
   useEffect(() => {
-    if (employee) {
-      setFormData(employee);
+    if (project) {
+      setFormData(project);
     } else {
       setFormData({
-        ...initialEmployee,
+        ...initialProject,
         id: Date.now(),
       });
     }
-  }, [employee]);
+  }, [project]);
 
   function handleChange(e) {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "capacity"
-        ? Number(value)
-        : value,
+      [name]:
+        name === "teamSize"
+          ? Number(value)
+          : value,
     }));
   }
 
@@ -49,13 +51,12 @@ export default function EmployeeForm({
 
   return (
     <form onSubmit={handleSubmit}>
-
       <h2 className="form-title">
-        {employee ? "Edit Employee" : "Add Employee"}
+        {project ? "Edit Project" : "Add Project"}
       </h2>
 
       <div className="form-group">
-        <label>Name</label>
+        <label>Project Name</label>
 
         <input
           name="name"
@@ -66,37 +67,47 @@ export default function EmployeeForm({
       </div>
 
       <div className="form-group">
-        <label>Role</label>
+        <label>Client</label>
 
         <input
-          name="role"
-          value={formData.role}
+          name="client"
+          value={formData.client}
           onChange={handleChange}
           required
         />
       </div>
 
       <div className="form-group">
-        <label>Primary Skill</label>
+        <label>Project Manager</label>
 
         <input
-          name="skill"
-          value={formData.skill}
+          name="manager"
+          value={formData.manager}
           onChange={handleChange}
           required
         />
       </div>
 
       <div className="form-group">
-        <label>Capacity (%)</label>
+        <label>Team Size</label>
 
         <input
           type="number"
-          name="capacity"
-          value={formData.capacity}
+          name="teamSize"
+          value={formData.teamSize}
           onChange={handleChange}
-          min="0"
-          max="100"
+          min="1"
+          required
+        />
+      </div>
+
+      <div className="form-group">
+        <label>Technology</label>
+
+        <input
+          name="technology"
+          value={formData.technology}
+          onChange={handleChange}
           required
         />
       </div>
@@ -109,14 +120,13 @@ export default function EmployeeForm({
           value={formData.status}
           onChange={handleChange}
         >
-          <option>Available</option>
-          <option>Allocated</option>
-          <option>Leave</option>
+          <option>Planning</option>
+          <option>Active</option>
+          <option>Completed</option>
         </select>
       </div>
 
       <div className="form-actions">
-
         <Button
           type="button"
           onClick={onCancel}
@@ -125,13 +135,11 @@ export default function EmployeeForm({
         </Button>
 
         <Button type="submit">
-          {employee
-            ? "Update Employee"
-            : "Save Employee"}
+          {project
+            ? "Update Project"
+            : "Save Project"}
         </Button>
-
       </div>
-
     </form>
   );
 }

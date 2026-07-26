@@ -5,12 +5,12 @@ import "./employees.css";
 import { getEmployees } from "../../services/employeeService";
 
 import EmployeeTable from "./components/EmployeeTable";
-import EmployeeModal from "./components/EmployeeModal";
 import EmployeeForm from "./components/EmployeeForm";
 
 import Card from "../../components/ui/Card/Card";
 import Button from "../../components/ui/Button/Button";
 import SearchBox from "../../components/ui/SearchBox/SearchBox";
+import Modal from "../../components/ui/Modal/Modal";
 
 export default function Employees() {
   const [employees, setEmployees] = useState(getEmployees());
@@ -19,27 +19,77 @@ export default function Employees() {
 
   const [showModal, setShowModal] = useState(false);
 
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+
   const [sortColumn, setSortColumn] = useState("name");
 
   const [sortDirection, setSortDirection] = useState("asc");
 
   function handleSort(column) {
     if (sortColumn === column) {
-      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+      setSortDirection((prev) =>
+        prev === "asc" ? "desc" : "asc"
+      );
     } else {
       setSortColumn(column);
       setSortDirection("asc");
     }
   }
 
-  function addEmployee(employee) {
-    setEmployees((prev) => [...prev, employee]);
+  function handleAddEmployee() {
+    setSelectedEmployee(null);
+    setShowModal(true);
+  }
+
+  function handleEdit(employee) {
+    setSelectedEmployee(employee);
+    setShowModal(true);
+  }
+
+  function saveEmployee(employee) {
+    if (selectedEmployee) {
+      setEmployees((prev) =>
+        prev.map((emp) =>
+          emp.id === employee.id ? employee : emp
+        )
+      );
+    } else {
+      setEmployees((prev) => [...prev, employee]);
+    }
+
+    setSelectedEmployee(null);
+    setShowModal(false);
+  }
+
+  function deleteEmployee(id) {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this employee?"
+    );
+
+    if (!confirmed) return;
+
+    setEmployees((prev) =>
+      prev.filter((employee) => employee.id !== id)
+    );
+  }
+
+  function closeModal() {
+    setSelectedEmployee(null);
     setShowModal(false);
   }
 
   const filteredEmployees = useMemo(() => {
-    const filtered = employees.filter((employee) =>
-      employee.name.toLowerCase().includes(search.toLowerCase())
+    const filtered = employees.filter(
+      (employee) =>
+        employee.name
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        employee.role
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        employee.skill
+          .toLowerCase()
+          .includes(search.toLowerCase())
     );
 
     filtered.sort((a, b) => {
@@ -58,17 +108,24 @@ export default function Employees() {
     });
 
     return filtered;
-  }, [employees, search, sortColumn, sortDirection]);
+  }, [
+    employees,
+    search,
+    sortColumn,
+    sortDirection,
+  ]);
 
   return (
     <div className="employees-page">
       <div className="page-header">
         <div>
           <h1>Employees</h1>
-          <p>Manage employees and resource capacity.</p>
+          <p>
+            Manage employees and resource capacity.
+          </p>
         </div>
 
-        <Button onClick={() => setShowModal(true)}>
+        <Button onClick={handleAddEmployee}>
           + Add Employee
         </Button>
       </div>
@@ -85,18 +142,21 @@ export default function Employees() {
           onHeaderClick={handleSort}
           sortColumn={sortColumn}
           sortDirection={sortDirection}
+          onEdit={handleEdit}
+          onDelete={deleteEmployee}
         />
       </Card>
 
-      <EmployeeModal
+      <Modal
         isOpen={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={closeModal}
       >
         <EmployeeForm
-          onSave={addEmployee}
-          onCancel={() => setShowModal(false)}
+          employee={selectedEmployee}
+          onSave={saveEmployee}
+          onCancel={closeModal}
         />
-      </EmployeeModal>
+      </Modal>
     </div>
   );
 }
