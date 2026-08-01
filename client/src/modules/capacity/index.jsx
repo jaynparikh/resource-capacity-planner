@@ -13,7 +13,7 @@ export default function Capacity() {
   const allocations = getAllocations();
 
   const capacityData = useMemo(() => {
-    return employees.map((employee) => {
+    const data = employees.map((employee) => {
       const employeeAllocations = allocations.filter(
         (allocation) => allocation.employeeId === employee.id
       );
@@ -30,6 +30,11 @@ export default function Capacity() {
         projectCount: employeeAllocations.length,
       };
     });
+
+    // Sort by utilization (highest first)
+    data.sort((a, b) => b.utilization - a.utilization);
+
+    return data;
   }, [employees, allocations]);
 
   const summary = useMemo(() => {
