@@ -3,36 +3,57 @@ import Card from "../../../components/ui/Card/Card";
 export default function CapacityCard({
   employee,
   utilization,
-  remaining,
+ remaining,
   projectCount,
 }) {
+  let status = "Available";
+  let statusClass = "available";
+
+  if (utilization === 100) {
+    status = "Fully Utilized";
+    statusClass = "full";
+  }
+
+  if (utilization > 100) {
+    status = "Overallocated";
+    statusClass = "over";
+  }
+
   return (
     <Card>
-      <h3>{employee}</h3>
+      <div className="capacity-card-header">
+        <h3>{employee}</h3>
 
-      <p>
-        <strong>Utilization:</strong>{" "}
-        {utilization}%
-      </p>
+        <span className={`capacity-status ${statusClass}`}>
+          {status}
+        </span>
+      </div>
 
-      <p>
-        <strong>Remaining:</strong>{" "}
-        {remaining}%
-      </p>
+      <div className="capacity-progress">
+        <div
+          className="capacity-progress-fill"
+          style={{
+            width: `${Math.min(utilization, 100)}%`,
+          }}
+        />
+      </div>
 
-      <p>
-        <strong>Projects:</strong>{" "}
-        {projectCount}
-      </p>
+      <div className="capacity-metrics">
+        <div className="capacity-metric">
+          <span>Utilization</span>
+          <strong>{utilization}%</strong>
+        </div>
 
-      <progress
-        value={utilization}
-        max="100"
-        style={{
-          width: "100%",
-          height: "18px",
-        }}
-      />
+        <div className="capacity-metric">
+          <span>Remaining</span>
+          <strong>{remaining}%</strong>
+        </div>
+
+        <div className="capacity-metric">
+          <span>Projects</span>
+          <strong>{projectCount}</strong>
+        </div>
+      </div>
     </Card>
   );
 }

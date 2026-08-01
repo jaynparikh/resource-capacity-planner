@@ -34,6 +34,84 @@
 
 .capacity-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 20px;
+}
+
+/* ---------------- Card ---------------- */
+
+.capacity-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.capacity-card-header h3 {
+  margin: 0;
+}
+
+.capacity-status {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.capacity-status.available {
+  background: #e8f7ee;
+  color: #1e7e34;
+}
+
+.capacity-status.full {
+  background: #fff6dd;
+  color: #9a6700;
+}
+
+.capacity-status.over {
+  background: #fdeaea;
+  color: #c62828;
+}
+
+.capacity-progress {
+  width: 100%;
+  height: 10px;
+  background: #ececec;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.capacity-progress-fill {
+  height: 100%;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.capacity-metrics {
+  display: flex;
+  justify-content: space-between;
+}
+
+.capacity-metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.capacity-metric span {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.capacity-metric strong {
+  font-size: 18px;
+}
+
+.capacity-grid .card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.capacity-grid .card:hover {
+  transform: translateY(-4px);
 }
