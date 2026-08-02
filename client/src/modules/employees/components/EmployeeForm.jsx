@@ -5,7 +5,6 @@ import Button from "../../../components/ui/Button/Button";
 import "../../../components/ui/Form/Form.css";
 
 const initialEmployee = {
-  id: null,
   name: "",
   role: "",
   skill: "",
@@ -24,10 +23,7 @@ export default function EmployeeForm({
     if (employee) {
       setFormData(employee);
     } else {
-      setFormData({
-        ...initialEmployee,
-        id: Date.now(),
-      });
+      setFormData(initialEmployee);
     }
   }, [employee]);
 
@@ -36,9 +32,10 @@ export default function EmployeeForm({
 
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "capacity"
-        ? Number(value)
-        : value,
+      [name]:
+        name === "capacity"
+          ? Number(value)
+          : value,
     }));
   }
 
@@ -49,7 +46,6 @@ export default function EmployeeForm({
 
   return (
     <form onSubmit={handleSubmit}>
-
       <h2 className="form-title">
         {employee ? "Edit Employee" : "Add Employee"}
       </h2>
@@ -109,14 +105,21 @@ export default function EmployeeForm({
           value={formData.status}
           onChange={handleChange}
         >
-          <option>Available</option>
-          <option>Allocated</option>
-          <option>Leave</option>
+          <option value="Available">
+            Available
+          </option>
+
+          <option value="Allocated">
+            Allocated
+          </option>
+
+          <option value="Leave">
+            Leave
+          </option>
         </select>
       </div>
 
       <div className="form-actions">
-
         <Button
           type="button"
           onClick={onCancel}
@@ -129,9 +132,7 @@ export default function EmployeeForm({
             ? "Update Employee"
             : "Save Employee"}
         </Button>
-
       </div>
-
     </form>
   );
 }

@@ -31,6 +31,10 @@ export default function Sidebar() {
           📈 Capacity
         </NavLink>
 
+        <NavLink to="/ai">
+        🤖 AI Assistant
+        </NavLink>
+        
         <NavLink to="/reports">
           📋 Reports
         </NavLink>

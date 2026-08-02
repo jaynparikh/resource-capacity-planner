@@ -1,8 +1,13 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import "./employees.css";
 
-import { getEmployees } from "../../services/employeeService";
+import {
+  getEmployees,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee as deleteEmployeeApi,
+} from "../../services/employeeService";
 
 import EmployeeTable from "./components/EmployeeTable";
 import EmployeeForm from "./components/EmployeeForm";
@@ -13,17 +18,25 @@ import SearchBox from "../../components/ui/SearchBox/SearchBox";
 import Modal from "../../components/ui/Modal/Modal";
 
 export default function Employees() {
-  const [employees, setEmployees] = useState(getEmployees());
-
+  const [employees, setEmployees] = useState([]);
   const [search, setSearch] = useState("");
-
   const [showModal, setShowModal] = useState(false);
-
   const [selectedEmployee, setSelectedEmployee] = useState(null);
-
   const [sortColumn, setSortColumn] = useState("name");
-
   const [sortDirection, setSortDirection] = useState("asc");
+
+  useEffect(() => {
+    loadEmployees();
+  }, []);
+
+  async function loadEmployees() {
+    try {
+      const data = await getEmployees();
+      setEmployees(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   function handleSort(column) {
     if (sortColumn === column) {
@@ -46,31 +59,36 @@ export default function Employees() {
     setShowModal(true);
   }
 
-  function saveEmployee(employee) {
-    if (selectedEmployee) {
-      setEmployees((prev) =>
-        prev.map((emp) =>
-          emp.id === employee.id ? employee : emp
-        )
-      );
-    } else {
-      setEmployees((prev) => [...prev, employee]);
-    }
+  async function saveEmployee(employee) {
+    try {
+      if (selectedEmployee) {
+        await updateEmployee(employee);
+      } else {
+        await createEmployee(employee);
+      }
 
-    setSelectedEmployee(null);
-    setShowModal(false);
+      await loadEmployees();
+
+      setSelectedEmployee(null);
+      setShowModal(false);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  function deleteEmployee(id) {
+  async function deleteEmployee(id) {
     const confirmed = window.confirm(
       "Are you sure you want to delete this employee?"
     );
 
     if (!confirmed) return;
 
-    setEmployees((prev) =>
-      prev.filter((employee) => employee.id !== id)
-    );
+    try {
+      await deleteEmployeeApi(id);
+      await loadEmployees();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   function closeModal() {
@@ -82,13 +100,13 @@ export default function Employees() {
     const filtered = employees.filter(
       (employee) =>
         employee.name
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(search.toLowerCase()) ||
         employee.role
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(search.toLowerCase()) ||
         employee.skill
-          .toLowerCase()
+          ?.toLowerCase()
           .includes(search.toLowerCase())
     );
 
@@ -120,9 +138,7 @@ export default function Employees() {
       <div className="page-header">
         <div>
           <h1>Employees</h1>
-          <p>
-            Manage employees and resource capacity.
-          </p>
+          <p>Manage employees and resource capacity.</p>
         </div>
 
         <Button onClick={handleAddEmployee}>

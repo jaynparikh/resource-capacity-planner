@@ -4,142 +4,191 @@ import Button from "../../../components/ui/Button/Button";
 
 import "../../../components/ui/Form/Form.css";
 
+
 const initialProject = {
-  id: null,
   name: "",
   client: "",
-  manager: "",
-  teamSize: 1,
-  technology: "",
   status: "Planning",
 };
+
 
 export default function ProjectForm({
   project,
   onSave,
   onCancel,
 }) {
+
   const [formData, setFormData] = useState(initialProject);
 
+
   useEffect(() => {
-    if (project) {
+
+    if(project){
+
       setFormData(project);
+
     } else {
-      setFormData({
-        ...initialProject,
-        id: Date.now(),
-      });
+
+      setFormData(initialProject);
+
     }
-  }, [project]);
 
-  function handleChange(e) {
-    const { name, value } = e.target;
+  },[project]);
 
-    setFormData((prev) => ({
+
+  function handleChange(e){
+
+    const {name,value}=e.target;
+
+
+    setFormData((prev)=>({
+
       ...prev,
-      [name]:
-        name === "teamSize"
-          ? Number(value)
-          : value,
+
+      [name]: value,
+
     }));
+
   }
 
-  function handleSubmit(e) {
+
+  function handleSubmit(e){
+
     e.preventDefault();
+
     onSave(formData);
+
   }
+
 
   return (
+
     <form onSubmit={handleSubmit}>
+
       <h2 className="form-title">
-        {project ? "Edit Project" : "Add Project"}
+
+        {project 
+          ? "Edit Project" 
+          : "Add Project"}
+
       </h2>
 
+
       <div className="form-group">
-        <label>Project Name</label>
+
+        <label>
+          Project Name
+        </label>
+
 
         <input
+
           name="name"
+
           value={formData.name}
+
           onChange={handleChange}
+
           required
+
         />
+
       </div>
 
+
+
       <div className="form-group">
-        <label>Client</label>
+
+        <label>
+          Client
+        </label>
+
 
         <input
+
           name="client"
+
           value={formData.client}
+
           onChange={handleChange}
+
           required
+
         />
+
       </div>
 
-      <div className="form-group">
-        <label>Project Manager</label>
 
-        <input
-          name="manager"
-          value={formData.manager}
-          onChange={handleChange}
-          required
-        />
-      </div>
 
       <div className="form-group">
-        <label>Team Size</label>
 
-        <input
-          type="number"
-          name="teamSize"
-          value={formData.teamSize}
-          onChange={handleChange}
-          min="1"
-          required
-        />
-      </div>
+        <label>
+          Status
+        </label>
 
-      <div className="form-group">
-        <label>Technology</label>
-
-        <input
-          name="technology"
-          value={formData.technology}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <div className="form-group">
-        <label>Status</label>
 
         <select
+
           name="status"
+
           value={formData.status}
+
           onChange={handleChange}
+
         >
-          <option>Planning</option>
-          <option>Active</option>
-          <option>Completed</option>
+
+          <option value="Planning">
+            Planning
+          </option>
+
+
+          <option value="Active">
+            Active
+          </option>
+
+
+          <option value="Completed">
+            Completed
+          </option>
+
+
         </select>
+
       </div>
 
+
+
       <div className="form-actions">
+
+
         <Button
+
           type="button"
+
           onClick={onCancel}
+
         >
+
           Cancel
+
         </Button>
 
+
+
         <Button type="submit">
+
           {project
             ? "Update Project"
             : "Save Project"}
+
         </Button>
+
+
       </div>
+
+
     </form>
+
   );
+
 }

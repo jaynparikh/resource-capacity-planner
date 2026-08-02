@@ -16,12 +16,16 @@ export default function AllocationForm({
   });
 
   useEffect(() => {
-    if (!formData.employeeId || !formData.projectId) return;
+    if (!formData.employeeId || !formData.projectId) {
+      return;
+    }
 
     const existing = allocations.find(
-      (a) =>
-        a.employeeId === Number(formData.employeeId) &&
-        a.projectId === Number(formData.projectId)
+      (allocation) =>
+        allocation.employeeId ===
+          Number(formData.employeeId) &&
+        allocation.projectId ===
+          Number(formData.projectId)
     );
 
     if (existing) {
@@ -50,11 +54,10 @@ export default function AllocationForm({
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
 
-    onAssign({
-      id: Date.now(),
+    await onAssign({
       employeeId: Number(formData.employeeId),
       projectId: Number(formData.projectId),
       allocation: Number(formData.allocation),
@@ -68,9 +71,11 @@ export default function AllocationForm({
   }
 
   const existingAllocation = allocations.find(
-    (a) =>
-      a.employeeId === Number(formData.employeeId) &&
-      a.projectId === Number(formData.projectId)
+    (allocation) =>
+      allocation.employeeId ===
+        Number(formData.employeeId) &&
+      allocation.projectId ===
+        Number(formData.projectId)
   );
 
   return (
@@ -88,7 +93,9 @@ export default function AllocationForm({
           onChange={handleChange}
           required
         >
-          <option value="">Select Employee</option>
+          <option value="">
+            Select Employee
+          </option>
 
           {employees.map((employee) => (
             <option
@@ -110,7 +117,9 @@ export default function AllocationForm({
           onChange={handleChange}
           required
         >
-          <option value="">Select Project</option>
+          <option value="">
+            Select Project
+          </option>
 
           {projects.map((project) => (
             <option
@@ -128,9 +137,9 @@ export default function AllocationForm({
 
         <input
           type="number"
+          name="allocation"
           min="1"
           max="100"
-          name="allocation"
           value={formData.allocation}
           onChange={handleChange}
           required

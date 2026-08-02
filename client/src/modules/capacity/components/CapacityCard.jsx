@@ -3,20 +3,23 @@ import Card from "../../../components/ui/Card/Card";
 export default function CapacityCard({
   employee,
   utilization,
- remaining,
+  remaining,
   projectCount,
 }) {
   let status = "Available";
   let statusClass = "available";
+  let progressClass = "available";
 
   if (utilization === 100) {
     status = "Fully Utilized";
     statusClass = "full";
+    progressClass = "full";
   }
 
   if (utilization > 100) {
     status = "Overallocated";
     statusClass = "over";
+    progressClass = "over";
   }
 
   return (
@@ -31,7 +34,7 @@ export default function CapacityCard({
 
       <div className="capacity-progress">
         <div
-          className="capacity-progress-fill"
+          className={`capacity-progress-fill ${progressClass}`}
           style={{
             width: `${Math.min(utilization, 100)}%`,
           }}

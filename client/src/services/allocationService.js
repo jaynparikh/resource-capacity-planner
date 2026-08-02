@@ -1,24 +1,28 @@
-const allocations = [
-  {
-    id: 1,
-    employeeId: 1,
-    projectId: 1,
-    allocation: 60,
-  },
-  {
-    id: 2,
-    employeeId: 2,
-    projectId: 2,
-    allocation: 100,
-  },
-  {
-    id: 3,
-    employeeId: 3,
-    projectId: 1,
-    allocation: 40,
-  },
-];
+import api from "./api";
 
-export function getAllocations() {
-  return allocations;
+export async function getAllocations() {
+  const { data } = await api.get("/allocations");
+  return data;
+}
+
+export async function createAllocation(allocation) {
+  const { data } = await api.post(
+    "/allocations",
+    allocation
+  );
+
+  return data;
+}
+
+export async function updateAllocation(allocation) {
+  const { data } = await api.put(
+    `/allocations/${allocation.id}`,
+    allocation
+  );
+
+  return data;
+}
+
+export async function deleteAllocation(id) {
+  await api.delete(`/allocations/${id}`);
 }

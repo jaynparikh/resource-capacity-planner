@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import "./capacity.css";
 
@@ -9,54 +9,89 @@ import { getEmployees } from "../../services/employeeService";
 import { getAllocations } from "../../services/allocationService";
 
 export default function Capacity() {
-  const employees = getEmployees();
-  const allocations = getAllocations();
+  const [employees, setEmployees] = useState([]);
+  const [allocations, setAllocations] = useState([]);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  async function loadData() {
+    try {
+      const [employeeData, allocationData] =
+        await Promise.all([
+          getEmployees(),
+          getAllocations(),
+        ]);
+
+      setEmployees(employeeData);
+      setAllocations(allocationData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const capacityData = useMemo(() => {
     const data = employees.map((employee) => {
-      const employeeAllocations = allocations.filter(
-        (allocation) => allocation.employeeId === employee.id
-      );
+      const employeeAllocations =
+        allocations.filter(
+          (allocation) =>
+            allocation.employeeId === employee.id
+        );
 
-      const utilization = employeeAllocations.reduce(
-        (sum, allocation) => sum + allocation.allocation,
-        0
-      );
+      const utilization =
+        employeeAllocations.reduce(
+          (sum, allocation) =>
+            sum + allocation.allocation,
+          0
+        );
 
       return {
         employee: employee.name,
         utilization,
-        remaining: Math.max(0, 100 - utilization),
-        projectCount: employeeAllocations.length,
+        remaining: Math.max(
+          0,
+          100 - utilization
+        ),
+        projectCount:
+          employeeAllocations.length,
       };
     });
 
-    // Sort by utilization (highest first)
-    data.sort((a, b) => b.utilization - a.utilization);
+    data.sort(
+      (a, b) =>
+        b.utilization - a.utilization
+    );
 
     return data;
   }, [employees, allocations]);
 
   const summary = useMemo(() => {
-    const totalEmployees = capacityData.length;
+    const totalEmployees =
+      capacityData.length;
 
     const averageUtilization =
       totalEmployees > 0
         ? Math.round(
             capacityData.reduce(
-              (sum, employee) => sum + employee.utilization,
+              (sum, employee) =>
+                sum + employee.utilization,
               0
             ) / totalEmployees
           )
         : 0;
 
-    const availableEmployees = capacityData.filter(
-      (employee) => employee.utilization < 100
-    ).length;
+    const availableEmployees =
+      capacityData.filter(
+        (employee) =>
+          employee.utilization < 100
+      ).length;
 
-    const overAllocated = capacityData.filter(
-      (employee) => employee.utilization > 100
-    ).length;
+    const overAllocated =
+      capacityData.filter(
+        (employee) =>
+          employee.utilization > 100
+      ).length;
 
     return {
       totalEmployees,
@@ -71,7 +106,10 @@ export default function Capacity() {
       <div className="page-header">
         <div>
           <h1>Capacity Dashboard</h1>
-          <p>View employee utilization across projects.</p>
+          <p>
+            View employee utilization
+            across projects.
+          </p>
         </div>
       </div>
 
@@ -83,12 +121,16 @@ export default function Capacity() {
 
         <Card>
           <h4>Average Utilization</h4>
-          <h2>{summary.averageUtilization}%</h2>
+          <h2>
+            {summary.averageUtilization}%
+          </h2>
         </Card>
 
         <Card>
           <h4>Available Employees</h4>
-          <h2>{summary.availableEmployees}</h2>
+          <h2>
+            {summary.availableEmployees}
+          </h2>
         </Card>
 
         <Card>

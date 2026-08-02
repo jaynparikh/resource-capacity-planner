@@ -9,6 +9,7 @@ import Allocation from "../modules/allocation";
 import Capacity from "../modules/capacity";
 import Reports from "../modules/reports";
 import Settings from "../modules/settings";
+import AIAssistant from "../modules/ai";
 
 export default function AppRoutes() {
   return (
@@ -22,6 +23,7 @@ export default function AppRoutes() {
           <Route path="/capacity" element={<Capacity />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/ai" element={<AIAssistant />} />
         </Route>
       </Routes>
     </BrowserRouter>

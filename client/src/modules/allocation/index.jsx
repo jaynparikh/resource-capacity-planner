@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import "./allocation.css";
 
@@ -9,26 +9,40 @@ import AllocationTable from "./components/AllocationTable";
 
 import { getEmployees } from "../../services/employeeService";
 import { getProjects } from "../../services/projectService";
-import { getAllocations } from "../../services/allocationService";
+import {
+  getAllocations,
+  createAllocation,
+  updateAllocation,
+} from "../../services/allocationService";
 
 export default function Allocation() {
-  const employees = getEmployees();
-  const projects = getProjects();
+  const [employees, setEmployees] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [allocations, setAllocations] = useState([]);
 
-  // Store only raw allocation data
-  const [allocations, setAllocations] = useState(getAllocations());
+  useEffect(() => {
+    loadData();
+  }, []);
 
-  // Build table view with calculated fields
+  async function loadData() {
+    try {
+      const [employeeData, projectData, allocationData] =
+        await Promise.all([
+          getEmployees(),
+          getProjects(),
+          getAllocations(),
+        ]);
+
+      setEmployees(employeeData);
+      setProjects(projectData);
+      setAllocations(allocationData);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const allocationView = useMemo(() => {
     return allocations.map((allocation) => {
-      const employee = employees.find(
-        (e) => e.id === allocation.employeeId
-      );
-
-      const project = projects.find(
-        (p) => p.id === allocation.projectId
-      );
-
       const utilization = allocations
         .filter(
           (a) => a.employeeId === allocation.employeeId
@@ -37,27 +51,28 @@ export default function Allocation() {
 
       return {
         ...allocation,
-        employee: employee?.name || "",
-        project: project?.name || "",
+        employee:
+          allocation.employee?.name ?? "",
+        project:
+          allocation.project?.name ?? "",
         utilization,
         remaining: 100 - utilization,
       };
     });
-  }, [allocations, employees, projects]);
+  }, [allocations]);
 
-  function handleAssign(newAllocation) {
-    setAllocations((prev) => {
-      const currentTotal = prev
+  async function handleAssign(newAllocation) {
+    try {
+      const currentTotal = allocations
         .filter(
-          (allocation) =>
-            allocation.employeeId ===
+          (a) =>
+            a.employeeId ===
               newAllocation.employeeId &&
-            allocation.projectId !==
+            a.projectId !==
               newAllocation.projectId
         )
         .reduce(
-          (sum, allocation) =>
-            sum + allocation.allocation,
+          (sum, a) => sum + a.allocation,
           0
         );
 
@@ -68,35 +83,32 @@ export default function Allocation() {
         alert(
           "Employee allocation cannot exceed 100%."
         );
-
-        return prev;
+        return;
       }
 
-      const existing = prev.find(
-        (allocation) =>
-          allocation.employeeId ===
+      const existing = allocations.find(
+        (a) =>
+          a.employeeId ===
             newAllocation.employeeId &&
-          allocation.projectId ===
+          a.projectId ===
             newAllocation.projectId
       );
 
       if (existing) {
-        return prev.map((allocation) =>
-          allocation.employeeId ===
-            newAllocation.employeeId &&
-          allocation.projectId ===
-            newAllocation.projectId
-            ? {
-                ...allocation,
-                allocation:
-                  newAllocation.allocation,
-              }
-            : allocation
-        );
+        await updateAllocation({
+          ...existing,
+          allocation:
+            newAllocation.allocation,
+        });
+      } else {
+        await createAllocation(newAllocation);
       }
 
-      return [...prev, newAllocation];
-    });
+      await loadData();
+    } catch (error) {
+      console.error(error);
+      alert("Failed to save allocation.");
+    }
   }
 
   return (

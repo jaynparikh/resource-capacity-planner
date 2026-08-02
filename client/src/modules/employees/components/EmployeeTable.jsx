@@ -19,7 +19,7 @@ const headers = [
   },
   {
     key: "capacity",
-    label: "Capacity",
+    label: "Max Capacity",
     sortable: true,
   },
   {
