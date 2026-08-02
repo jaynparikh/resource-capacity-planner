@@ -1,0 +1,42 @@
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.badge.available {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge.allocated {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge.leave {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge.planning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge.completed {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.badge.partial {
+  background: #fef3c7;
+  color: #92400e;
+}

@@ -1,0 +1,29 @@
+.app-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.app-table th,
+.app-table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.app-table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable-header:hover {
+  color: #2563eb;
+}
+
+.app-table tbody tr:hover {
+  background: #f9fafb;
+}

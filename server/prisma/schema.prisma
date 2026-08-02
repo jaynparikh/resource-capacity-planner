@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Employee {
+  id          Int      @id @default(autoincrement())
+  name        String
+  role        String
+  skill       String
+  capacity    Int      @default(100)
+  status      String   @default("Available")
+
+  allocations Allocation[]
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  client      String
+  status      String
+
+  allocations Allocation[]
+}
+
+model Allocation {
+  id         Int @id @default(autoincrement())
+
+  allocation Int
+
+  employeeId Int
+  projectId  Int
+
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  project  Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+model Setting {
+  id              Int    @id @default(1)
+  companyName     String
+  workingHours    Int
+  defaultCapacity Int
+}
