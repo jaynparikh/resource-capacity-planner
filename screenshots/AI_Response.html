@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<!-- saved from url=(0024)http://localhost:5173/ai -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="module">import { injectIntoGlobalHook } from "/@react-refresh";
+injectIntoGlobalHook(window);
+window.$RefreshReg$ = () => {};
+window.$RefreshSig$ = () => (type) => type;</script>
+
+    <script type="module" src="./AI_Response_files/client"></script>
+
+    
+    <link rel="icon" type="image/svg+xml" href="http://localhost:5173/favicon.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>client</title>
+  <style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/components/layout/layout.css">/* ===== Layout ===== */
+
+.layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+/* ===== Sidebar ===== */
+
+.sidebar {
+  width: 250px;
+  background: #111827;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-logo {
+  padding: 24px;
+  font-size: 22px;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 12px;
+}
+
+.sidebar-nav a {
+  color: #d1d5db;
+  text-decoration: none;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  transition: .2s;
+}
+
+.sidebar-nav a:hover {
+  background: #1f3c88;
+  color: white;
+}
+
+.sidebar-nav a.active {
+  background: #2563eb;
+  color: white;
+}
+
+/* ===== Right Section ===== */
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  padding: 30px;
+}
+
+/* ==========================
+   Header
+========================== */
+
+.top-header {
+  height: 75px;
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 30px;
+
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.header-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.header-date {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #eff6ff;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.icon-button:hover {
+  background: #dbeafe;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 50%;
+
+  background: #2563eb;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: bold;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.user-role {
+  color: #6b7280;
+  font-size: 13px;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/components/ui/Card/Card.css">.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/modules/employees/employees.css">.employees-page {
+  padding: 10px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  margin: 0;
+}
+
+.page-header p {
+  color: #666;
+  margin-top: 6px;
+}
+
+.add-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.employee-table th {
+  background: #f8fafc;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 15px;
+}
+
+.edit-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #1d4ed8;
+}
+
+.delete-btn {
+  background: #dc2626;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/components/ui/Badge/Badge.css">.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.badge.available {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge.allocated {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge.leave {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.badge.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge.planning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge.completed {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.badge.partial {
+  background: #fef3c7;
+  color: #92400e;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/components/ui/Table/Table.css">.app-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.app-table th,
+.app-table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.app-table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable-header:hover {
+  color: #2563eb;
+}
+
+.app-table tbody tr:hover {
+  background: #f9fafb;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/components/ui/Button/Button.css">.btn {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.btn.primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn.primary:hover {
+  background: #1d4ed8;
+}
+
+.btn.secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn.secondary:hover {
+  background: #d1d5db;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/components/ui/Form/Form.css">.form-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/components/ui/SearchBox/SearchBox.css">.search-box {
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.search-box:focus {
+  border-color: #2563eb;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/components/ui/Modal/Modal.css">.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+}
+
+.modal {
+  position: relative;
+
+  background: white;
+
+  width: 520px;
+  max-width: 90vw;
+
+  border-radius: 10px;
+
+  padding: 24px;
+
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close {
+  position: absolute;
+
+  top: 12px;
+  right: 12px;
+
+  border: none;
+  background: transparent;
+
+  cursor: pointer;
+
+  font-size: 22px;
+  color: #666;
+}
+
+.modal-close:hover {
+  color: #111;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/modules/projects/projects.css">.employees-page {
+  padding: 10px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  margin: 0;
+}
+
+.page-header p {
+  color: #666;
+  margin-top: 6px;
+}
+
+.add-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.employee-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.employee-table th,
+.employee-table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.employee-table th {
+  background: #f8fafc;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 15px;
+}
+
+.edit-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #1d4ed8;
+}
+
+.delete-btn {
+  background: #dc2626;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+}
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 15px;
+}
+
+.edit-btn {
+  background: #2563eb;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #1d4ed8;
+}
+
+.delete-btn {
+  background: #dc2626;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #b91c1c;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/modules/allocation/allocation.css">.allocation-page {
+  padding: 10px;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/modules/capacity/capacity.css">.capacity-page {
+  padding: 10px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin-bottom: 6px;
+}
+
+.page-header p {
+  color: #666;
+}
+
+.capacity-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.capacity-summary h4 {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.capacity-summary h2 {
+  margin-top: 10px;
+  font-size: 30px;
+}
+
+.capacity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Card */
+
+.capacity-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.capacity-card-header h3 {
+  margin: 0;
+}
+
+.capacity-status {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.capacity-status.available {
+  background: #e8f7ee;
+  color: #1e7e34;
+}
+
+.capacity-status.full {
+  background: #fff6dd;
+  color: #9a6700;
+}
+
+.capacity-status.over {
+  background: #fdeaea;
+  color: #c62828;
+}
+
+/* Progress Bar */
+
+.capacity-progress {
+  width: 100%;
+  height: 10px;
+  background: #ececec;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.capacity-progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.capacity-progress-fill.available {
+  background: #16a34a;
+}
+
+.capacity-progress-fill.full {
+  background: #f59e0b;
+}
+
+.capacity-progress-fill.over {
+  background: #dc2626;
+}
+
+/* Metrics */
+
+.capacity-metrics {
+  display: flex;
+  justify-content: space-between;
+}
+
+.capacity-metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.capacity-metric span {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 6px;
+}
+
+.capacity-metric strong {
+  font-size: 18px;
+}
+
+.capacity-grid .card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.capacity-grid .card:hover {
+  transform: translateY(-4px);
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/modules/reports/reports.css">.reports-page {
+  padding: 10px;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin-bottom: 6px;
+}
+
+.page-header p {
+  color: #666;
+}
+
+.reports-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.reports-summary h4 {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.reports-summary h2 {
+  margin-top: 10px;
+  font-size: 30px;
+}
+
+.reports-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.reports-chart-grid .card {
+  min-height: 420px;
+}
+
+.reports-chart-grid h3,
+.top-employees-card h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.reports-table th,
+.reports-table td {
+  padding: 14px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.reports-table th {
+  background: #f8fafc;
+  font-weight: 600;
+}
+
+.reports-table tbody tr:hover {
+  background: #f9fafb;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/modules/settings/settings.css">.settings-page {
+  padding: 24px;
+}
+
+.settings-page h1 {
+  margin-bottom: 24px;
+}
+
+.settings-card {
+  max-width: 500px;
+  background: white;
+  padding: 24px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.form-group input {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.save-btn {
+  margin-top: 12px;
+  padding: 10px 18px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background: #1565c0;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/modules/ai/ai.css">.ai-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ai-page textarea {
+  width: 100%;
+  margin: 15px 0;
+  padding: 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 110px;
+  font-size: 14px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.quick-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.quick-buttons button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #eef2ff;
+  transition: 0.2s;
+}
+
+.quick-buttons button:hover {
+  background: #dbeafe;
+}
+
+.ai-response {
+  white-space: pre-wrap;
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.thinking {
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 15px;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/index.css">/* Reset */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  background: #f4f7fb;
+  color: #1f2937;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}</style><style type="text/css" data-vite-dev-id="D:/Git_projects/resource-capacity-planner/client/src/App.css">/* Root Layout */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+
+.header {
+  height: 70px;
+  background: #1e3a8a;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 30px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.header h1 {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* Navigation */
+
+.nav {
+  display: flex;
+  gap: 20px;
+}
+
+.nav a {
+  color: white;
+  opacity: 0.9;
+  transition: 0.25s;
+}
+
+.nav a:hover {
+  opacity: 1;
+}
+
+/* Main */
+
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
+
+/* Card */
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Dashboard Grid */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  transition: 0.2s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+}
+
+.dashboard-card h3 {
+  color: #6b7280;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.dashboard-card h1 {
+  font-size: 34px;
+  color: #2563eb;
+}
+
+/* ============================= */
+/* Dashboard */
+/* ============================= */
+
+.page-title {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  color: #6b7280;
+  margin-bottom: 30px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+  margin-bottom: 35px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+  transition: .25s;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+}
+
+.stat-title {
+  color: #6b7280;
+  font-size: 15px;
+}
+
+.stat-value {
+  margin-top: 12px;
+  font-size: 34px;
+  font-weight: bold;
+  color: #2563eb;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.dashboard-panel {
+  background: white;
+  border-radius: 14px;
+  min-height: 260px;
+  padding: 24px;
+  box-shadow: 0 3px 12px rgba(0,0,0,.08);
+}
+
+.dashboard-panel h3 {
+  margin-bottom: 20px;
+}
+
+.placeholder {
+  height: 180px;
+  border: 2px dashed #d1d5db;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #9ca3af;
+}</style></head>
+  <body>
+    <div id="root"><div class="layout"><aside class="sidebar"><div class="sidebar-logo">RCP</div><nav class="sidebar-nav"><a class="" href="http://localhost:5173/" data-discover="true">📊 Dashboard</a><a class="" href="http://localhost:5173/employees" data-discover="true">👥 Employees</a><a class="" href="http://localhost:5173/projects" data-discover="true">📁 Projects</a><a class="" href="http://localhost:5173/allocation" data-discover="true">📌 Allocation</a><a class="" href="http://localhost:5173/capacity" data-discover="true">📈 Capacity</a><a class="active" href="http://localhost:5173/ai" data-discover="true" aria-current="page">🤖 AI Assistant</a><a class="" href="http://localhost:5173/reports" data-discover="true">📋 Reports</a><a class="" href="http://localhost:5173/settings" data-discover="true">⚙ Settings</a></nav></aside><div class="content"><header class="top-header"><div><h2 class="header-title">Resource Capacity Planner</h2><p class="header-date">Saturday, 22 August 2026</p></div><div class="header-right"><button class="icon-button">🔔</button><div class="user-profile"><div class="avatar">JP</div><div><div class="user-name">Jay Parikh</div><div class="user-role">Project Manager</div></div></div></div></header><main class="page"><div class="ai-page"><div class="card"><h2>🤖 AI Resource Planning Assistant</h2><p>Ask questions about employees, projects, allocation and capacity.</p><textarea rows="4" placeholder="Ask anything...">Give me a summary of resource utilization.</textarea><div class="button-group"><button type="button" class="btn primary">Ask AI</button><button type="button" class="btn primary">Copy Response</button></div></div><div class="card"><h3>Quick Questions</h3><div class="quick-buttons"><button>Who has available capacity?</button><button>Who is overallocated?</button><button>Give me a summary of resource utilization.</button><button>Suggest resources for active projects.</button></div></div><div class="card"><h3>Response</h3><div class="ai-response"><h3>Resource Utilization Summary</h3>
+<p>The engineering team has an average utilization of 75.0%, with 225 total allocated out of 300 total capacity.</p>
+<h4>Individual Resource Utilization</h4>
+<ul>
+<li><strong>Jay (Delivery manager)</strong>: Utilized at 60% across Test1 (10%) and Devops (50%), leaving 40% available capacity.</li>
+<li><strong>Nitesh (Architect)</strong>: Utilized at 90% across Devops (30%) and Test1 (60%), with 10% available capacity.</li>
+<li><strong>Rahul (QA Manager)</strong>: Utilized at 75% across Test1 (25%), Devops (25%), and QA Automation (25%), with 25% available capacity.</li>
+</ul>
+<h4>Recommendations</h4>
+<ul>
+<li><strong>Jay</strong> has 40% available capacity and could contribute further to Test1 (Planning) or Devops (Active).</li>
+<li><strong>Rahul</strong> has 25% available capacity that could be utilized for additional tasks within Test1 (Planning), Devops (Active), or QA Automation (Active).</li>
+<li><strong>Nitesh</strong> is highly utilized at 90%. His remaining 10% capacity should be monitored for critical tasks.</li>
+</ul></div></div></div></main></div></div></div>
+    <script type="module" src="./AI_Response_files/main.jsx"></script>
+  
+
+<span id="recharts_measurement_span" aria-hidden="true" style="position: absolute; top: -20000px; left: 0px; padding: 0px; margin: 0px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; white-space: pre; font-size: 16px; letter-spacing: normal;">Test1</span></body></html>
