@@ -60,3 +60,22 @@ jobs:
       - name: Validate server entry point
         working-directory: ./server
         run: node --check src/server.js
+
+
+  docker:
+    name: Docker Build Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build backend Docker image
+        run: docker build -t rcp-backend ./server
+
+      - name: Build frontend Docker image
+        run: |
+          docker build \
+            --build-arg VITE_API_URL=http://localhost:5000/api \
+            -t rcp-frontend \
+            ./client
