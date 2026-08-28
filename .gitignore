@@ -1,3 +1,8 @@
 node_modules/ 
 .env
 /dist
+# AI/editor generated tooling
+server/.agents/
+server/.claude/
+server/.windsurf/
+server/skills-lock.json
