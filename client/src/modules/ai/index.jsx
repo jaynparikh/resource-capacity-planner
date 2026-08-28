@@ -5,7 +5,7 @@ import "./ai.css";
 import Card from "../../components/ui/Card/Card";
 import Button from "../../components/ui/Button/Button";
 
-import { askAI } from "../../services/aiService";
+import { askAI } from "../../services/aiservice";
 import ReactMarkdown from "react-markdown";
 const quickQuestions = [
     "Who has available capacity?",

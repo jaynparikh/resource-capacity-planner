@@ -23,6 +23,7 @@ Instructions:
 - If someone is overallocated, recommend a reallocation.
 - If someone has available capacity, recommend where they could contribute.
 - End every response with a short "Recommendation" section.
+- Keep answer within 200 words.
 
 Organization Data
 
