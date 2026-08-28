@@ -181,6 +181,24 @@ npm run dev
 ```
 
 ---
+## 🐳 Docker Support
+
+The application includes Docker support for running the frontend and backend in isolated, reproducible environments.
+
+### Container Architecture
+
+- **Frontend:** React/Vite application built with Node.js and served using Nginx
+- **Backend:** Node.js/Express API with Prisma
+- **Database:** Neon PostgreSQL (external managed database)
+- **AI:** Google Gemini API (external service)
+
+### Run with Docker Compose
+
+Ensure Docker is installed and running, then from the project root:
+
+```bash
+docker compose build
+docker compose up
 
 # 🤖 AI Assistant
 
